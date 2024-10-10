@@ -275,6 +275,7 @@ impl<'a> Context<'a> {
             const wasmModule = new WebAssembly.Module(bytes);
             const wasmInstance = new WebAssembly.Instance(wasmModule, imports);
             wasm = wasmInstance.exports;
+            globalThis.__wasm = wasm;
             module.exports.__wasm = wasm;
         ",
         );
@@ -401,8 +402,6 @@ impl<'a> Context<'a> {
                 js.push_str(&self.generate_node_imports());
 
                 js.push_str("let wasm;\n");
-                js.push_str("globalThis.__wasm = wasm;\n");
-
 
                 for (id, js) in crate::sorted_iter(&self.wasm_import_definitions) {
                     let import = self.module.imports.get_mut(*id);
@@ -468,6 +467,7 @@ impl<'a> Context<'a> {
                     let wasm;
                     export function __wbg_set_wasm(val) {
                         wasm = val;
+                        globalThis.__wasm = wasm;
                     }
                     ",
                 );
@@ -846,6 +846,7 @@ impl<'a> Context<'a> {
                     __wbg_init.__wbindgen_wasm_module = module;
                     {init_memviews}
                     {start}
+                    globalThis.__wasm = wasm;
                     return wasm;
                 }}
 
