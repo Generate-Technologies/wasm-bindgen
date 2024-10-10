@@ -401,6 +401,8 @@ impl<'a> Context<'a> {
                 js.push_str(&self.generate_node_imports());
 
                 js.push_str("let wasm;\n");
+                js.push_str("globalThis.__wasm = wasm;\n");
+
 
                 for (id, js) in crate::sorted_iter(&self.wasm_import_definitions) {
                     let import = self.module.imports.get_mut(*id);
