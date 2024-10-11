@@ -685,6 +685,7 @@ impl<'a> Context<'a> {
         needs_manual_start: bool,
         mut imports: Option<&mut String>,
     ) -> Result<(String, String), Error> {
+        panic!("yay!");
         let module_name = "wbg";
         let mut init_memory_arg = "";
         let mut init_memory = String::new();
